@@ -69,7 +69,12 @@ def q2_output(q_values, filename):
 # brown_words is a python list where every element is a python list of the words of a particular sentence.
 # Note: words that appear exactly 5 times should be considered rare!
 def calc_known(brown_words):
-    known_words = set([])
+    wordsset = set(brown_words)
+    wordslist = []
+    for s in wordsset:
+        if brown_words.count(s) > RARE_WORD_MAX_FREQ:
+            wordslist.append(s)
+    known_words = set(wordslist)
     return known_words
 
 # TODO: IMPLEMENT THIS FUNCTION
@@ -77,6 +82,12 @@ def calc_known(brown_words):
 # Returns the equivalent to brown_words but replacing the unknown words by '_RARE_' (use RARE_SYMBOL constant)
 def replace_rare(brown_words, known_words):
     brown_words_rare = []
+    for s in brown_words:
+        if s not in known_words:
+            brown_words_rare.append(RARE_SYMBOL)
+        else:
+            brown_words_rare.append(s)
+            
     return brown_words_rare
 
 # This function takes the ouput from replace_rare and outputs it to a file
