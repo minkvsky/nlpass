@@ -39,6 +39,18 @@ def split_wordtags(brown_train):
 # It returns a python dictionary where the keys are tuples that represent the tag trigram, and the values are the log probability of that trigram
 def calc_trigrams(brown_tags):
     q_values = {}
+
+    def mylog(item, tuples):
+        if tuples.count(item) == 0:
+            return MINUS_INFINITY_SENTENCE_LOG_PROB
+        else:
+            return math.log(float(tuples.count(item)) / len(tuples),
+                            2)
+
+    trigram_tuples = list(nltk.trigrams(brown_tags))
+    q_values = {item: mylog(item, trigram_tuples)
+                 for item in set(trigram_tuples)}
+
     return q_values
 
 # This function takes output from calc_trigrams() and outputs it in the proper format
