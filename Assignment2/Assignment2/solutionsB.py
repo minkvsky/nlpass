@@ -21,16 +21,16 @@ def split_wordtags(brown_train):
     brown_tags = []
 
     for s in brown_train:
-    brown_words.append(START_SYMBOL)
-    brown_tags.append(START_SYMBOL)
-    for ss in s.split(' '):
-        if ss != '\n':
-            brown_words.append(ss.split('/')[0])
-            brown_tags.append(ss.split('/')[1])
-        else:
-            brown_words.append(STOP_SYMBOL)
-            brown_tags.append(STOP_SYMBOL)
-            
+        brown_words.append(START_SYMBOL)
+        brown_tags.append(START_SYMBOL)
+        for ss in s.split():
+            if ss != '\n':
+                brown_tags.append(ss.split('/')[-1])
+                brown_words.append(ss.replace('/'+ss.split('/')[-1],''))
+            else:
+                brown_words.append(STOP_SYMBOL)
+                brown_tags.append(STOP_SYMBOL)
+
     return brown_words, brown_tags
 
 
