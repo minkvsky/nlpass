@@ -19,6 +19,18 @@ LOG_PROB_OF_ZERO = -1000
 def split_wordtags(brown_train):
     brown_words = []
     brown_tags = []
+
+    for s in brown_train:
+    brown_words.append(START_SYMBOL)
+    brown_tags.append(START_SYMBOL)
+    for ss in s.split(' '):
+        if ss != '\n':
+            brown_words.append(ss.split('/')[0])
+            brown_tags.append(ss.split('/')[1])
+        else:
+            brown_words.append(STOP_SYMBOL)
+            brown_tags.append(STOP_SYMBOL)
+            
     return brown_words, brown_tags
 
 
@@ -33,7 +45,7 @@ def calc_trigrams(brown_tags):
 def q2_output(q_values, filename):
     outfile = open(filename, "w")
     trigrams = q_values.keys()
-    trigrams.sort()  
+    trigrams.sort()
     for trigram in trigrams:
         output = " ".join(['TRIGRAM', trigram[0], trigram[1], trigram[2], str(q_values[trigram])])
         outfile.write(output + '\n')
@@ -77,7 +89,7 @@ def calc_emission(brown_words_rare, brown_tags):
 def q4_output(e_values, filename):
     outfile = open(filename, "w")
     emissions = e_values.keys()
-    emissions.sort()  
+    emissions.sort()
     for item in emissions:
         output = " ".join([item[0], item[1], str(e_values[item])])
         outfile.write(output + '\n')
@@ -86,14 +98,14 @@ def q4_output(e_values, filename):
 
 # TODO: IMPLEMENT THIS FUNCTION
 # This function takes data to tag (brown_dev_words), a set of all possible tags (taglist), a set of all known words (known_words),
-# trigram probabilities (q_values) and emission probabilities (e_values) and outputs a list where every element is a tagged sentence 
+# trigram probabilities (q_values) and emission probabilities (e_values) and outputs a list where every element is a tagged sentence
 # (in the WORD/TAG format, separated by spaces and with a newline in the end, just like our input tagged data)
 # brown_dev_words is a python list where every element is a python list of the words of a particular sentence.
 # taglist is a set of all possible tags
 # known_words is a set of all known words
 # q_values is from the return of calc_trigrams()
 # e_values is from the return of calc_emissions()
-# The return value is a list of tagged sentences in the format "WORD/TAG", separated by spaces. Each sentence is a string with a 
+# The return value is a list of tagged sentences in the format "WORD/TAG", separated by spaces. Each sentence is a string with a
 # terminal newline, not a list of tokens. Remember also that the output should not contain the "_RARE_" symbol, but rather the
 # original words of the sentence!
 def viterbi(brown_dev_words, taglist, known_words, q_values, e_values):
@@ -111,8 +123,8 @@ def q5_output(tagged, filename):
 # This function uses nltk to create the taggers described in question 6
 # brown_words and brown_tags is the data to be used in training
 # brown_dev_words is the data that should be tagged
-# The return value is a list of tagged sentences in the format "WORD/TAG", separated by spaces. Each sentence is a string with a 
-# terminal newline, not a list of tokens. 
+# The return value is a list of tagged sentences in the format "WORD/TAG", separated by spaces. Each sentence is a string with a
+# terminal newline, not a list of tokens.
 def nltk_tagger(brown_words, brown_tags, brown_dev_words):
     # Hint: use the following line to format data to what NLTK expects for training
     training = [ zip(brown_words[i],brown_tags[i]) for i in xrange(len(brown_words)) ]
