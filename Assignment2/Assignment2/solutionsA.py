@@ -85,10 +85,13 @@ def q1_output(unigrams, bigrams, trigrams, filename):
 # This function must return a python list of scores, where the first element is the score of the first sentence, etc.
 def score_one(ngram_p,n,s):
     sco=0
-    for i in range(len(s)):
-        if i+n <= len(s):
-            print(s[i:i+n])
-        sco += ngram_p[s[i:i+n]]
+    ss = s.split()
+    for i in range(len(ss)):
+        if i+n <= len(ss):
+            if n >1:
+                sco += ngram_p[tuple(ss[i:i+n])]
+            else:
+                sco += ngram_p[ss[i:i+n][0]]
     return sco
 
 def score(ngram_p,n,corpus):
