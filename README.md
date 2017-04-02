@@ -1,1 +1,3 @@
-nlp_coursera assignment
+# nlp_coursera assignment
+# use jupyter to keep variable
+# not python solutionsA.py

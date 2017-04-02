@@ -33,19 +33,18 @@ def split_wordtags(brown_train):
 
     return brown_words, brown_tags
 
+def mylog(item, tuples):
+    if tuples.count(item) == 0:
+        return MINUS_INFINITY_SENTENCE_LOG_PROB
+    else:
+        return math.log(float(tuples.count(item)) / len(tuples),
+                        2)
 
 # TODO: IMPLEMENT THIS FUNCTION
 # This function takes tags from the training data and calculates tag trigram probabilities.
 # It returns a python dictionary where the keys are tuples that represent the tag trigram, and the values are the log probability of that trigram
 def calc_trigrams(brown_tags):
     q_values = {}
-
-    def mylog(item, tuples):
-        if tuples.count(item) == 0:
-            return MINUS_INFINITY_SENTENCE_LOG_PROB
-        else:
-            return math.log(float(tuples.count(item)) / len(tuples),
-                            2)
 
     trigram_tuples = list(nltk.trigrams(brown_tags))
     q_values = {item: mylog(item, trigram_tuples)
@@ -87,7 +86,7 @@ def replace_rare(brown_words, known_words):
             brown_words_rare.append(RARE_SYMBOL)
         else:
             brown_words_rare.append(s)
-            
+
     return brown_words_rare
 
 # This function takes the ouput from replace_rare and outputs it to a file
@@ -105,7 +104,15 @@ def q3_output(rare, filename):
 # The second return value is a set of all possible tags for this data set
 def calc_emission(brown_words_rare, brown_tags):
     e_values = {}
-    taglist = set([])
+    word_tag_tuples = []
+
+    for word,tag in zip(brown_words_rare,brown_tags):
+        word_tag_tuples.append((word,tag))
+
+    for tuples in set((word_tag_tuples)):
+        e_values[tuples] = mylog(tuples,word_tag_tuples)
+
+    taglist = set(brown_tags)
     return e_values, taglist
 
 # This function takes the output from calc_emissions() and outputs it

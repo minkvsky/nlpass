@@ -140,6 +140,8 @@ def main():
     infile.close()
 
     # calculate ngram probabilities (question 1)
+    # here 9h needed so q1_output is necessary
+    # then backup A1.txt
     unigrams, bigrams, trigrams = calc_probabilities(corpus)
 
     # question 1 output
