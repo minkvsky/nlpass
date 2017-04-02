@@ -27,13 +27,17 @@ def calc_probabilities(training_corpus):
     unigram_tuples = []
     for s in training_corpus:
         tokens = nltk.word_tokenize(s)
-        unigram_tuples.extend(list(nltk.bigrams(tokens)))
+        tokens.insert(0,START_SYMBOL)
+        tokens.append(STOP_SYMBOL)
+        unigram_tuples.extend(tokens)
     unigram_p = {item: mylog(item, unigram_tuples)
                  for item in set(unigram_tuples)}
 
     bigram_tuples = []
     for s in training_corpus:
         tokens = nltk.word_tokenize(s)
+        tokens.insert(0,START_SYMBOL)
+        tokens.append(STOP_SYMBOL)
         bigram_tuples.extend(list(nltk.bigrams(tokens)))
     bigram_p = {item: mylog(item, bigram_tuples)
                 for item in set(bigram_tuples)}
@@ -41,7 +45,9 @@ def calc_probabilities(training_corpus):
     trigram_tuples = []
     for s in training_corpus:
         tokens = nltk.word_tokenize(s)
-        trigram_tuples.extend(list(nltk.bigrams(tokens)))
+        tokens.insert(0,START_SYMBOL)
+        tokens.append(STOP_SYMBOL)
+        trigram_tuples.extend(list(nltk.trigrams(tokens)))
     trigram_p = {item: mylog(item, trigram_tuples)
                  for item in set(trigram_tuples)}
 
