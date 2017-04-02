@@ -119,7 +119,7 @@ def linearscore(unigrams, bigrams, trigrams, corpus):
     triscores = score(trigrams, 3, corpus)
 
     scores = []
-    for _,s in zip(uniscores,biscores,triscores):
+    for s in zip(uniscores,biscores,triscores):
         scores.append(sum(list(s))/3.0)
     return scores
 
